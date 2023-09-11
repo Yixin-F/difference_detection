@@ -69,7 +69,7 @@ This modification is more suitable for examples with low overlap rates.
 
 ## Show
 <centre>
-<img src="update.jpg" width="60%">
+<img src="update.jpg" width="120%">
 </centre>
 
 
