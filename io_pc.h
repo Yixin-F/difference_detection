@@ -15,22 +15,29 @@
 #include <pcl/common/eigen.h>
 #include <pcl/common/centroid.h>
 #include <pcl/common/impl/common.hpp>
+#include<pcl/filters/voxel_grid.h>
 
 
 template <class MatrixType>
 bool read_pcd(MatrixType& vertices, MatrixType& normals, MatrixType& vert_colors, const std::string& filename, int D) {
     pcl::PointCloud<pcl::PointXYZI>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZI>());
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_down(new pcl::PointCloud<pcl::PointXYZI>());
     pcl::io::loadPCDFile(filename, *cloud);
+    pcl::VoxelGrid<pcl::PointXYZI> filter;
+    filter.setInputCloud(cloud);
+    filter.setLeafSize(0.05f, 0.05f, 0.05f);
+    filter.filter(*cloud_down);
+    
     float  x, y, z;
 
-    int num = cloud->points.size();
+    int num = cloud_down->points.size();
     vertices.resize(D, num);
     normals.resize(D, num);
     vert_colors.resize(D, num);
     for(size_t i = 0; i < num; i++){
-        vertices(0, i) = cloud->points[i].x;
-        vertices(1, i) = cloud->points[i].y;
-        vertices(2, i) = cloud->points[i].z;
+        vertices(0, i) = cloud_down->points[i].x;
+        vertices(1, i) = cloud_down->points[i].y;
+        vertices(2, i) = cloud_down->points[i].z;
 
         normals(0, i) = 0;  // normals and colors are not useful !!
         normals(1, i) = 0;
@@ -51,12 +58,12 @@ pcl::PointCloud<pcl::PointXYZRGB>::Ptr detect(const pcl::PointCloud<pcl::PointXY
     // select update area after registeration
     pcl::PointXYZI point_min, point_max;
     pcl::getMinMax3D(*local_, point_min, point_max);
-    float min_x = point_min.x - 0.2;
-    float min_y = point_min.y - 0.2;
-    float min_z = point_min.z - 0.2;
-    float max_x = point_max.x + 0.2;
-    float max_y = point_max.y + 0.2;
-    float max_z = point_max.z + 0.2;
+    float min_x = point_min.x;
+    float min_y = point_min.y;
+    float min_z = point_min.z;
+    float max_x = point_max.x;
+    float max_y = point_max.y;
+    float max_z = point_max.z;
 
     int global_num = global_->points.size();
     std::cout << "First global scan points num is: " << global_num << std::endl;

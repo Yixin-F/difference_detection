@@ -40,5 +40,5 @@ if(APPLE OR UNIX)
     #--- "Dummy" target to have data appear in QtCreator
     add_custom_target(data SOURCES ${CMAKE_SOURCE_DIR}/data)
 else()
-    # file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${PROJECT_BINARY_DIR})
+    file(COPY ${CMAKE_SOURCE_DIR}/data DESTINATION ${PROJECT_BINARY_DIR})
 endif()

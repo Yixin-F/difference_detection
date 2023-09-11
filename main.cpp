@@ -19,8 +19,8 @@ int main(int argc, char const ** argv)
     float radius;
     if(argc == 6)
     {
-        file_target = argv[1];
-        file_source = argv[2];
+        file_source = argv[1];
+        file_target = argv[2];
         out_path = argv[3];
         method = Method(std::stoi(argv[4]));
         radius = std::stof(argv[5]);
@@ -31,7 +31,7 @@ int main(int argc, char const ** argv)
         std::cout << "Method :\n"
                   << "0: ICP\n1: AA-ICP\n2: Our Fast ICP\n3: Our Robust ICP\n4: ICP Point-to-plane\n"
                   << "5: Our Robust ICP point to plane\n6: Sparse ICP\n7: Sparse ICP point to plane\n" 
-                  << "6: search radius(< 0.2) for difference detection"<< std::endl;
+                  << "6: search radius(< 0.5) for difference detection"<< std::endl;
         exit(0);
     }
     int dim = 3;
@@ -189,12 +189,18 @@ int main(int argc, char const ** argv)
     pcl::PointCloud<pcl::PointXYZI>::Ptr target_cloud(new pcl::PointCloud<pcl::PointXYZI>());
     pcl::io::loadPCDFile(file_target, *target_cloud);
 
+    pcl::PointCloud<pcl::PointXYZI>::Ptr cloud_down(new pcl::PointCloud<pcl::PointXYZI>());
+    pcl::VoxelGrid<pcl::PointXYZI> filter;
+    filter.setInputCloud(target_cloud);
+    filter.setLeafSize(0.05f, 0.05f, 0.05f);
+    filter.filter(*cloud_down);
+
     pcl::PointCloud<pcl::PointXYZI>::Ptr res_cloud(new pcl::PointCloud<pcl::PointXYZI>());
     std::string file_source_reg = out_path + "reg_pc.pcd";
     write_file(file_source, vertices_source, res_cloud, normal_source, src_vert_colors, file_source_reg);  // get refistered local cloud
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr result(new pcl::PointCloud<pcl::PointXYZRGB>());  
     
-    result = detect(res_cloud, target_cloud, radius);  // detect
+    result = detect(res_cloud, cloud_down, radius);  // detect
     std::cout << "difference detection over !!" << std::endl;
     pcl::io::savePCDFile(file_source_reg, *result);
     std::cout << "save result !!" << std::endl;

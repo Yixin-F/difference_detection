@@ -29,7 +29,7 @@ The program is run with four input parameters:
 2. an input file storing the target point cloud;
 3. an output path storing the registered source point cloud and transformation;
 4. registration method:
-5. search radius (<0.2)
+5. search radius (<0.5)
 ```
 0: ICP
 1: AA-ICP
@@ -44,8 +44,9 @@ You can ignore the last parameter, in which case `Ours (Robust ICP)` will be use
 
 Example:
 ```
-$ ./FRICP ./data/target.ply ./data/source.ply ./data/res/ 3 0.1
+$ ./FRICP ./data/target.ply ./data/source.ply ./data/res/ 3 0.2
 ```
+Please adjust the voxelgrid leafsize in read_pcd() and main.cpp
 But obj and ply (Non-binary encoding) files are supported.
 
 ### Initialization support 
