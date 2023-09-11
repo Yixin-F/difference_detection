@@ -67,4 +67,9 @@ VectorN source_mean(0,0,0), target_mean(0,0,0);
 ```
 This modification is more suitable for examples with low overlap rates.
 
+## Show
+<centre>
+<img src="update.jpg" width="60%">
+</centre>
+
 
