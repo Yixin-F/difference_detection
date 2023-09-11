@@ -181,11 +181,11 @@ int main(int argc, char const ** argv)
     out_trans << res_trans << std::endl;
     out_trans.close();
 
-    // ///--- Write result to file
+    // ///--- Write result to file pyl
     // std::string file_source_reg = out_path + "reg_pc.ply";
     // write_file(file_source, vertices_source, normal_source, src_vert_colors, file_source_reg);
 
-    // detect differences
+    // detect differences pcd
     pcl::PointCloud<pcl::PointXYZI>::Ptr target_cloud(new pcl::PointCloud<pcl::PointXYZI>());
     pcl::io::loadPCDFile(file_target, *target_cloud);
 
