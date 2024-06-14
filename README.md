@@ -34,7 +34,7 @@ The program is run with four input parameters:
 0: ICP
 1: AA-ICP
 2: Ours (Fast ICP)
-3: Ours (Robust ICP)
+3: Ours (FAST AND Robust ICP)
 4: ICP Point-to-plane
 5: Our (Robust ICP point-to-plane)
 6: Sparse ICP
@@ -44,7 +44,7 @@ You can ignore the last parameter, in which case `Ours (Robust ICP)` will be use
 
 Example:
 ```
-$ ./FRICP ./data/target.ply ./data/source.ply ./data/res/ 3 0.2
+$ ./FRICP ./data/target.pcd ./data/source.pcd ./data/res/ 3 0.2
 ```
 Please adjust the voxelgrid leafsize in read_pcd() and main.cpp
 But obj and ply (Non-binary encoding) files are supported.
